@@ -948,24 +948,6 @@ input:focus-visible {
   }
 }
 
-@media (max-width: 480px) {
-  /* Give the poster more of the card on narrow screens */
-  .upload-result-container {
-    padding: 14px;
-  }
-
-  .movie-result {
-    padding: 10px;
-    gap: 12px;
-  }
-
-  /* Fixed 2:3 poster ratio, so the height follows the width and nothing gets squashed */
-  .movie-result-icon {
-    width: 104px;
-    height: auto;
-    aspect-ratio: 2 / 3;
-  }
-}
 
 /* Respect reduced-motion settings */
 @media (prefers-reduced-motion: reduce) {
