@@ -503,19 +503,12 @@ const Upload = () => {
 
                           {(movie.year || movie.type || genre || movie.director) && (
                             <div className="movie-chips">
-                              {movie.year && <span className="chip"><strong>Year:</strong> {movie.year}</span>}
-                              {movie.type && <span className="chip"><strong>Type:</strong> {movie.type}</span>}
-                              {genre && <span className="chip"><strong>Genre:</strong> {genre}</span>}
-                              {movie.director && <span className="chip"><strong>Directed by</strong> {movie.director}</span>}
+                              {movie.year && <span className="chip"><strong>Year: </strong>{movie.year}.</span>}
+                              {movie.type && <span className="chip"><strong>Type: </strong>{movie.type}</span>}
+                              {genre && <span className="chip"><strong>Genre: </strong>{genre}.</span>}
+                              {movie.director && <span className="chip"><strong>Directed by: </strong> {movie.director}.</span>}
                             </div>
-                          )}
-{/* 
-                          {movie.director && (
-                            <p>
-                              <strong>Directed by</strong> {movie.director}
-                            </p>
-                          )} */}
-                        </div>
+                          )}                        </div>
                       </article>
                     );
                   })}

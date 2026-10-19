@@ -869,42 +869,33 @@ input:focus-visible {
     padding: 14px;
   }
 
-  /* Poster and text sit side by side and are centred against each other */
   .movie-result {
-    align-items: center;
-    gap: 12px;
+    gap: 15px;
     padding: 10px;
   }
 
-  /* Poster height follows its width, so it never gets squashed */
   .movie-result-icon {
     width: 96px;
     height: auto;
     aspect-ratio: 2 / 3;
   }
 
-  /* Text column: compact, vertically centred, no stray margins */
   .movie-result-info {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     gap: 5px;
-    line-height: 1.3;
+    line-height: 1.4;
   }
 
-  /* Title capped at 3 lines so a long name can't stretch the card */
   .movie-result-info h3 {
-    margin: 0;
-    font-size: 0.92rem;
-    line-height: 1.25;
-    /* display: -webkit-box;
-    -webkit-box-orient: vertical; */
+    margin-bottom: 6px;
+    font-size: 1.2rem;
+    line-height: 1;
     overflow: hidden;
   }
 
-  /* Year / genre rows sit close together */
   .movie-chips {
-    gap: 3px;
+    gap: 5px;
     margin: 0;
   }
 
