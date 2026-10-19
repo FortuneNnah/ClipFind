@@ -1,109 +1,23 @@
-# 🎬 ClipFind
+# ClipFind
 
-ClipFind is an AI-powered movie search platform inspired by the concept of "Shazam for movies." Users can upload video clips and the system analyzes frames to identify the movie title, cast, release year, and streaming availability.
+ClipFind helps anyone figure out which movie a scene comes from. Users upload a video clip or paste a link from social media, and the app returns the movie title, release year, director, genre, and poster. It solves the everyday problem of watching a clip online and not knowing what film it is.
 
-## 📋 Table of Contents
+## Installation
 
-- [Project Vision](#project-vision)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Project Structure](#project-structure)
-- [Running the Application](#running-the-application)
-- [API Documentation](#api-documentation)
-- [Development Guide](#development-guide)
-- [Future Roadmap](#future-roadmap)
-
-## 🎯 Project Vision
-
-People constantly encounter movie scenes online through various platforms:
-- TikTok edits
-- Instagram reels
-- YouTube shorts
-- Twitter/X clips
-- Memes and fan edits
-
-Most of the time, users don't know which movie these scenes are from. **ClipFind** solves this problem by allowing users to upload clips directly and instantly discover:
-
-- Movie title
-- Release year
-- Cast and crew
-- Director
-- Genre
-- Streaming availability
-
-## ✨ Features
-
-### Current Features
-- ✅ Drag & drop video upload
-- ✅ Custom file upload UI with visual feedback
-- ✅ Video file preview support
-- ✅ Multiple file upload support (up to 50 files per request)
-- ✅ Responsive upload interface
-- ✅ Modern React-based frontend
-- ✅ Frame extraction from videos (1 frame per second)
-- ✅ File size validation (6MB limit per file)
-- ✅ Sequential and parallel upload handling
-- ✅ Upload status tracking for each file
-- ✅ Error handling and user feedback
-
-### Planned Features
-- 🔜 AI-powered movie identification using frame analysis
-- 🔜 Frame-by-frame analysis with scene recognition
-- 🔜 Audio fingerprinting technology
-- 🔜 Subtitle and dialogue matching
-- 🔜 Actor recognition and face detection
-- 🔜 Streaming platform discovery
-- 🔜 Watchlists and saved searches
-- 🔜 Similar movie recommendations
-
-## 🛠 Tech Stack
-
-### Frontend
-- **React** 19.2.6 - UI library
-- **Vite** 8.0.12 - Build tool and dev server
-- **JavaScript (ES Modules)** - Modern JavaScript
-- **CSS3** - Styling with responsive design
-- **React Hooks** - State management
-
-### Backend
-- **Node.js** - Runtime environment
-- **Express.js** 4.18.2 - Web framework
-- **Multer** 1.4.5 - File upload middleware
-- **Fluent-FFmpeg** 2.1.3 - FFmpeg wrapper for frame extraction
-- **FFmpeg Static** 5.3.0 - Bundled FFmpeg binary
-- **CORS** 2.8.5 - Cross-Origin Resource Sharing
-
-### Development Tools
-- **ESLint** 10.3.0 - Code linting
-- **Vite React Plugin** 6.0.1 - React integration for Vite
-
-## 📦 Prerequisites
-
-Before running this project, ensure you have installed:
-
-- **Node.js** 14+ (LTS recommended)
-- **npm** 6+ or **yarn**
-- **FFmpeg** (automatically bundled via ffmpeg-static)
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-
-## 🚀 Installation
-
-### 1. Clone the Repository
+1. **Clone the repository**
 
 ```bash
-git clone <repository-url>
-cd ClipFind
+git clone https://github.com/FortuneNnah/ClipFInd
+cd ClipFInd
 ```
 
-### 2. Install Frontend Dependencies
+2. **Install frontend dependencies**
 
 ```bash
 npm install
 ```
 
-### 3. Install Backend Dependencies
+3. **Install backend dependencies**
 
 ```bash
 cd server
@@ -111,301 +25,252 @@ npm install
 cd ..
 ```
 
-## 📁 Project Structure
+4. **Set up environment variables**
 
-```
-ClipFind/
-├── public/                 # Static files served to clients
-├── server/                 # Backend Express application
-│   ├── index.js           # Main server entry point
-│   ├── package.json       # Backend dependencies
-│   ├── frames/            # Extracted video frames (output)
-│   ├── uploads/           # Uploaded video files (temporary)
-│   └── utils/
-│       └── extractFrames.js  # FFmpeg frame extraction utility
-├── src/                   # Frontend React application
-│   ├── App.jsx            # Main App component
-│   ├── App.css            # Application styles
-│   ├── Upload.jsx         # File upload component
-│   ├── main.jsx           # React entry point
-│   └── assets/            # Images and static assets
-├── index.html             # HTML entry point
-├── vite.config.js         # Vite configuration
-├── eslint.config.js       # ESLint configuration
-├── package.json           # Frontend dependencies and scripts
-└── README.md              # Project documentation
+Create a `.env` file inside `server/`:
+
+```bash
+# server/.env
+GEMINI_API_KEY=your_gemini_key
+TMDB_API_KEY=your_tmdb_key
+MONGO_URI=your_mongodb_uri
+RAPIDAPI_KEY=your_rapidapi_key
+PORT=4000
 ```
 
-## ▶️ Running the Application
-
-### Development Mode
-
-#### Terminal 1 - Start Backend Server
+5. **Run the backend**
 
 ```bash
 cd server
 npm start
 ```
 
-The backend server will start on `http://localhost:4000`
+The backend runs on `http://localhost:4000`.
 
-**Expected Output:**
-```
-Server running on port 4000
-```
+6. **Run the frontend**
 
-#### Terminal 2 - Start Frontend Dev Server
+In a new terminal, from the project root:
 
 ```bash
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173` (or the port Vite suggests)
+The frontend runs on `http://localhost:5173`.
 
-### Production Build
+## Usage
+
+Open the app in your browser, paste a video URL or click **Browse Files**, then click **Upload**. The app shows upload progress, AI processing status, and the final movie result. Completed matches are saved to local storage and can be viewed on the **History** page.
+
+You can also interact with the backend directly:
 
 ```bash
-# Build frontend
-npm run build
-
-# Preview the build
-npm run preview
+curl -F "video=@clip.mp4" http://localhost:4000/api/upload
 ```
 
-The optimized production build will be in the `dist/` directory.
+```bash
+curl -X POST http://localhost:4000/api/upload-url \
+  -H "Content-Type: application/json" \
+  -d '{"videoUrl":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}'
+```
 
-## 📡 API Documentation
+```bash
+curl http://localhost:4000/api/job/<jobId>
+```
 
-### Upload Endpoints
+## Features
 
-#### Single File Upload
+- **Video upload**: drag and drop or browse files, with a 25 MB limit per file.
+- **Social link support**: paste a YouTube, TikTok, or Twitter/X URL and let the backend handle it.
+- **AI movie identification**: Google Gemini analyzes the video and returns the best movie match.
+- **Metadata enrichment**: results are enhanced with posters, genres, and media type from TMDB.
+- **Async job queue**: each upload gets a job ID, so the frontend can poll for results without hanging.
+- **Upload history**: completed results are stored in the browser for quick review.
+- **Responsive UI**: clean interface that works on desktop and mobile.
 
-**Endpoint:** `POST /upload`
+## Technologies Used
 
-**Description:** Upload a single video file for frame extraction.
+| Technology | Purpose | Link |
+|---|---|---|
+| React | Frontend UI | https://react.dev |
+| Vite | Frontend build tool | https://vite.dev |
+| TypeScript | Type definitions for React | https://www.typescriptlang.org |
+| Node.js | Backend runtime | https://nodejs.org |
+| Express | Backend framework | https://expressjs.com |
+| MongoDB | Job and result storage | https://www.mongodb.com |
+| Mongoose | MongoDB object modeling | https://mongoosejs.com |
+| Multer | File upload handling | https://github.com/expressjs/multer |
+| Fluent FFmpeg | Video metadata and processing | https://github.com/fluent-ffmpeg/node-fluent-ffmpeg |
+| Google Gemini API | AI video identification | https://ai.google.dev |
+| TMDB API | Movie metadata and posters | https://www.themoviedb.org |
+| yt-dlp | Social video downloading | https://github.com/yt-dlp/yt-dlp |
+| RapidAPI | TikTok video proxy | https://rapidapi.com |
 
-**Request:**
-- **Method:** POST
-- **Content-Type:** multipart/form-data
-- **Body Parameter:** `video` (file)
-- **Max File Size:** 6MB
+## API Documentation
 
-**Response (Success):**
+Authentication is not required. API keys are kept server-side only.
+
+#### GET /
+
+**Description**: Health check for the backend.
+
+**Response**:
+
 ```json
 {
-  "success": true,
-  "filename": "1718555123456-sample_video.mp4",
-  "path": "/uploads/1718555123456-sample_video.mp4",
-  "originalname": "sample_video.mp4",
-  "size": 5242880,
-  "frames": ["frame-001.png", "frame-002.png", "frame-003.png"]
+  "status": "ok",
+  "message": "ClipFind Backend is running!"
 }
 ```
 
-**Response (Error):**
+#### POST /api/upload
+
+**Description**: Upload a local video file and start background AI identification.
+
+**Request**: `multipart/form-data` with a `video` field. Clips must be 3 minutes or shorter.
+
+**Response**:
+
 ```json
 {
-  "success": false,
-  "message": "No file uploaded"
+  "message": "Processing started",
+  "jobId": "64b1234567890abcdef12345"
 }
 ```
 
-#### Multiple File Upload
+**Errors**:
 
-**Endpoint:** `POST /upload-multiple`
+- 400: Missing file or clip exceeds 3 minutes.
+- 502: Server failed to start processing.
 
-**Description:** Upload multiple video files at once (up to 50 files per request).
+#### POST /api/upload-url
 
-**Request:**
-- **Method:** POST
-- **Content-Type:** multipart/form-data
-- **Body Parameter:** `videos` (files)
-- **Max Files:** 50
-- **Max File Size:** 6MB per file
+**Description**: Submit a public video URL. YouTube links are sent straight to Gemini. TikTok and Twitter/X links are downloaded first, then analyzed.
 
-**Response (Success):**
+**Request**:
+
+```json
+{
+  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+}
+```
+
+**Response**:
+
+```json
+{
+  "message": "URL processing started",
+  "jobId": "64b1234567890abcdef12345"
+}
+```
+
+**Errors**:
+
+- 400: Missing or invalid URL.
+- 500: Failed to initiate URL processing.
+
+#### GET /api/job/:id
+
+**Description**: Check the status of an identification job. Poll this endpoint every few seconds until the status is `completed` or `failed`.
+
+**Response (processing)**:
+
+```json
+{
+  "_id": "64b1234567890abcdef12345",
+  "status": "processing",
+  "result": null,
+  "createdAt": "2026-07-24T15:44:52.130Z"
+}
+```
+
+**Response (completed)**:
+
+```json
+{
+  "_id": "64b1234567890abcdef12345",
+  "status": "completed",
+  "result": {
+    "title": "Inception",
+    "year": "2010",
+    "director": "Christopher Nolan",
+    "poster_path": "https://image.tmdb.org/t/p/w500/...",
+    "type": "movie",
+    "genre": ["Action", "Science Fiction", "Adventure"]
+  },
+  "createdAt": "2026-07-24T15:44:52.130Z"
+}
+```
+
+**Response (failed)**:
+
+```json
+{
+  "_id": "64b1234567890abcdef12345",
+  "status": "failed",
+  "result": {
+    "error": "Could not extract video from the provided link."
+  },
+  "createdAt": "2026-07-24T15:44:52.130Z"
+}
+```
+
+**Errors**:
+
+- 404: Job ID does not exist.
+- 500: Database retrieval failure.
+
+#### POST /api/upload-multiple
+
+**Description**: Upload up to 50 video files at once. This endpoint stores files only and does not run AI identification.
+
+**Request**: `multipart/form-data` with a `videos` field.
+
+**Response**:
+
 ```json
 {
   "success": true,
   "files": [
     {
       "filename": "1718555123456-video1.mp4",
-      "originalname": "video1.mp4",
-      "size": 5242880
-    },
-    {
-      "filename": "1718555123457-video2.mp4",
-      "originalname": "video2.mp4",
-      "size": 3145728
+      "path": "/uploads/1718555123456-video1.mp4",
+      "originalname": "video1.mp4"
     }
   ]
 }
 ```
 
-#### Health Check
+**Errors**:
 
-**Endpoint:** `GET /`
+- 400: No files uploaded.
 
-**Description:** Check if the server is running.
+## Environment Variables
 
-**Response:**
-```json
-{
-  "status": "ok"
-}
-```
+| Variable | Description | Example |
+|---|---|---|
+| `GEMINI_API_KEY` | Google Gemini API key | `AIza...` |
+| `TMDB_API_KEY` | The Movie Database API key | `abc123...` |
+| `MONGO_URI` | MongoDB connection string | `mongodb+srv://user:pass@cluster...` |
+| `RAPIDAPI_KEY` | RapidAPI key for TikTok proxy | `a1b2c3...` |
+| `PORT` | Backend port | `4000` |
 
-#### Serve Extracted Frames
+## Contributing
 
-**Endpoint:** `GET /frames/<filename>`
+Contributions are welcome. Fork the repo, create a feature branch, make your changes, and open a pull request. If you find a bug or have an idea, open an issue so we can discuss it.
 
-**Description:** Access extracted frame images.
+## Author Info
 
-**Example:** `http://localhost:4000/frames/frame-001.png`
+Built by Fortune Nnah
 
-## 💻 Development Guide
+- GitHub: https://github.com/FortuneNnah
 
-### Frontend Development
+## Badges
 
-The frontend is built with React and uses Vite for fast development and hot module replacement (HMR).
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com)
 
-**Key Components:**
-
-- **App.jsx** - Main application wrapper
-- **Upload.jsx** - Handles file uploads, drag-and-drop, and upload management
-
-**Key Features:**
-- Real-time upload status tracking
-- Drag-and-drop file selection
-- Multiple file support
-- Error handling and user feedback
-
-### Backend Development
-
-The backend uses Express.js with middleware for CORS and JSON parsing.
-
-**Key Files:**
-
-- **index.js** - Server setup and route handlers
-- **utils/extractFrames.js** - FFmpeg integration for frame extraction
-
-**Key Features:**
-- File upload handling with Multer
-- Automatic directory creation for uploads and frames
-- Frame extraction at 1 frame per second
-- Error handling and logging
-
-### Code Quality
-
-Run ESLint to check code quality:
-
-```bash
-npm run lint
-```
-
-## 🗂️ File Upload Workflow
-
-1. **User selects/drags files** → Files added to upload queue
-2. **Upload initiated** → Files sent to backend `/upload` endpoint
-3. **Backend processes** → Video stored, FFmpeg extracts frames
-4. **Frames generated** → Stored in `server/frames/` directory
-5. **Response sent** → Frontend receives frame filenames and upload status
-6. **User sees results** → Upload marked as complete/failed
-
-## 📝 Configuration Files
-
-### vite.config.js
-Configures Vite build tool and React plugin integration.
-
-### eslint.config.js
-Defines linting rules for code quality.
-
-### package.json (Root)
-Frontend dependencies and build scripts.
-
-### server/package.json
-Backend dependencies.
-
-## 🐛 Troubleshooting
-
-### Port Already in Use
-
-If port 4000 or 5173 is already in use:
-
-**For Backend:**
-```bash
-# Kill process on port 4000 (Windows PowerShell)
-Get-Process -Id (Get-NetTCPConnection -LocalPort 4000).OwningProcess | Stop-Process -Force
-```
-
-### FFmpeg Issues
-
-If frame extraction fails, ensure `ffmpeg-static` is properly installed:
-
-```bash
-cd server
-npm install ffmpeg-static --save
-```
-
-### CORS Errors
-
-The backend has CORS enabled. If you see CORS errors, check that:
-- Backend is running on `http://localhost:4000`
-- Frontend is correctly configured to hit the backend URL
-
-### Upload Fails
-
-Common issues:
-- File exceeds 6MB limit
-- Backend not running
-- Network connectivity issues
-
-## 📚 Learning Resources
-
-- [React Documentation](https://react.dev)
-- [Vite Guide](https://vite.dev)
-- [Express.js Guide](https://expressjs.com)
-- [FFmpeg Documentation](https://ffmpeg.org/documentation.html)
-- [Multer Documentation](https://github.com/expressjs/multer)
-
-## 🚦 Future Roadmap
-
-### Phase 1: Frame Analysis (In Progress)
-- [ ] Integrate AI model for frame analysis
-- [ ] Movie database integration
-- [ ] Scene matching algorithm
-
-### Phase 2: Enhanced Features
-- [ ] Audio fingerprinting
-- [ ] Actor recognition
-- [ ] Streaming platform integration
-
-### Phase 3: User Experience
-- [ ] User authentication
-- [ ] Watchlist functionality
-- [ ] Search history
-- [ ] Recommendations
-
-### Phase 4: Mobile & Extensions
-- [ ] React Native mobile app
-- [ ] Browser extension
-- [ ] API for third-party developers
-
-## 📄 License
-
-This project is private and proprietary. Please contact the maintainers for licensing information.
-
-## 👥 Contributing
-
-For contribution guidelines and procedures, please contact the project maintainers.
-
-## 📧 Support
-
-For questions, bug reports, or feature requests, please open an issue in the project repository.
-
----
-
-**Last Updated:** June 2026  
-**Version:** 0.0.1
-* FFmpeg<br>
-* Supabase
+[![Readme was generated by Dokugen](https://img.shields.io/badge/Readme%20was%20generated%20by-Dokugen-brightgreen)](https://dokugen.samueltuoyo.com)]
